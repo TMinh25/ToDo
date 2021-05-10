@@ -1,8 +1,8 @@
 # ToDo
 
-* This is a repo of Microsoft To Do clone with SQL Server implement
-* This repo was clone from [HenJigg]<https://github.com/HenJigg/MicrosoftToDo.WPFDemo> profile
-* Project status: prototype
+* This is a repo of Microsoft To Do clone with SQL Server implement.
+* This repo was clone from [HenJigg](https://github.com/HenJigg/MicrosoftToDo.WPFDemo) profile.
+* Project status: prototype.
 
 See real examples:
 
