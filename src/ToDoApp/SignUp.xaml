@@ -1,0 +1,60 @@
+﻿<Window x:Class="ToDoApp.SignUp" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:local="clr-namespace:ToDoApp" mc:Ignorable="d" Title="Đăng Kí" Height="592.5" Width="500" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="None" AllowsTransparency="True" Background="Transparent" Icon="Assets/Images/logo.ico">
+    <Window.Resources>
+        <ResourceDictionary Source="style.xaml"/>
+    </Window.Resources>
+
+    <Border Padding="24" CornerRadius="10" Background="#EBEAF5">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="5*" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Button Click="btnClose_Click" Grid.Column="2" Cursor="Hand" Height="36" Width="36" VerticalAlignment="Top" HorizontalAlignment="Right" Background="Transparent" BorderBrush="Transparent" Template="{StaticResource btn}">
+                <Image Source="Assets/Images/exitButton.png" />
+            </Button>
+            <Border Grid.Column="1">
+                <Button Style="{StaticResource ImageButtonStyle}" TabIndex="0" Click="ImageButton_Click">
+                    <Ellipse Width="250" Height="250" HorizontalAlignment="Center">
+                        <Ellipse.Fill>
+                            <ImageBrush Stretch="UniformToFill" x:Name="imgAvatarSelection" ImageSource="{Binding AvatarImageSource}" />
+                        </Ellipse.Fill>
+                    </Ellipse>
+                </Button>
+            </Border>
+            <StackPanel Grid.Row="1" Grid.Column="1">
+
+                <Border Grid.Row="1" Background="White" Style="{StaticResource EntryFieldStyle}">
+                    <Grid>
+                        <TextBlock FontSize="14" Text="Tài Khoản" Padding="8 10" Foreground="#7F7494" Visibility="{Binding ElementName=txtUserAccount, Path=Text.IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                        <TextBox Margin="2" TabIndex="1" FontSize="14" Name="txtUserAccount" KeyDown="SignUp_KeyDown" Style="{StaticResource SmallTextBoxBaseStyle}" />
+                    </Grid>
+                </Border>
+                <Border Grid.Row="1" Background="White" Style="{StaticResource EntryFieldStyle}">
+                    <Grid>
+                        <TextBlock FontSize="14" Text="Mật Khẩu" Padding="8 10" Foreground="#7F7494" Visibility="{Binding ElementName=txtPassword, Path=Text.IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                        <TextBox Margin="2" TabIndex="2" FontSize="14" Name="txtPassword" KeyDown="SignUp_KeyDown" Style="{StaticResource SmallTextBoxBaseStyle}" />
+                    </Grid>
+                </Border>
+                <Border Grid.Row="1" Background="White" Style="{StaticResource EntryFieldStyle}">
+                    <Grid>
+                        <TextBlock FontSize="14" Text="Nhập Lại Mật Khẩu" Padding="8 10" Foreground="#7F7494" Visibility="{Binding ElementName=txtRePassword, Path=Text.IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                        <TextBox Margin="2" TabIndex="3" FontSize="14" Name="txtRePassword" KeyDown="SignUp_KeyDown" Style="{StaticResource SmallTextBoxBaseStyle}" />
+                    </Grid>
+                </Border>
+                <Border Grid.Row="1" Background="White" Style="{StaticResource EntryFieldStyle}">
+                    <Grid>
+                        <TextBlock FontSize="14" Text="Họ Tên" Padding="8 10" Foreground="#7F7494" Visibility="{Binding ElementName=txtDisplayName, Path=Text.IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                        <TextBox Margin="2" TabIndex="4" FontSize="14" Name="txtDisplayName" KeyDown="SignUp_KeyDown" Style="{StaticResource SmallTextBoxBaseStyle}" />
+                    </Grid>
+                </Border>
+                <TextBlock x:Name="txtErrorMessage" Style="{StaticResource txtError}" Margin="0 10 0 8" />
+                <Button FontSize="14" TabIndex="5" Style="{StaticResource purpleButton}" Height="40" Click="SignUpButton_Click">Đăng Kí</Button>
+            </StackPanel>
+        </Grid>
+    </Border>
+</Window>
