@@ -5,23 +5,44 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ToDoApp"
         mc:Ignorable="d"
-        Title="" Height="175" Width="200" WindowStartupLocation="CenterScreen" ContentRendered="Window_ContentRendered" ResizeMode="NoResize" ShowInTaskbar="False">
-    <Grid Margin="15">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
-        <Label Name="lblQuestion" Grid.Column="1">Chỉnh sửa:</Label>
-        <TextBox Name="txtAnswer" Grid.Column="1" Grid.Row="1"></TextBox>
-
-        <WrapPanel Grid.Row="2" Grid.ColumnSpan="2" HorizontalAlignment="Right" Margin="0,15,0,0">
-            <Button IsDefault="True" Name="btnDialogOk" Click="btnDialogOk_Click" MinWidth="60" Margin="0,0,10,0">_Ok</Button>
-            <Button IsCancel="True" MinWidth="60">_Cancel</Button>
-        </WrapPanel>
-    </Grid>
+        Title="" Height="175" Width="252" WindowStartupLocation="CenterScreen" ContentRendered="Window_ContentRendered" ResizeMode="NoResize" WindowStyle="None" AllowsTransparency="True" Background="Transparent" ShowInTaskbar="False" SizeToContent="Height">
+    <Window.Resources>
+        <ResourceDictionary Source="./style.xaml"/>
+    </Window.Resources>
+    <Border Height="Auto" Padding="12" CornerRadius="10" Background="#F5F5F6">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="5*" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="4*"/>
+            </Grid.RowDefinitions>
+            <Button Click="btnClose_Click" Grid.Column="1" Cursor="Hand" Height="28" Width="28" VerticalAlignment="Top" HorizontalAlignment="Right" Background="Transparent" BorderBrush="Transparent" Template="{StaticResource btn}">
+                <Image Source="Assets/Images/exitButton.png" />
+            </Button>
+            <Grid Grid.Row="1" Grid.ColumnSpan="2" Name="grid">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Label Name="lblQuestion">Tác Vụ:</Label>
+                <Border Name="answerInput" Grid.Row="1" Background="White" Style="{StaticResource EntryFieldStyle}">
+                    <Grid>
+                        <TextBlock FontSize="14" Text="" Padding="8 10" Foreground="#3A362A" Visibility="{Binding ElementName=txtAnswer, Path=Text.IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                        <TextBox Margin="2" TabIndex="1" FontSize="14" Name="txtAnswer" KeyDown="Answer_KeyDown" Style="{StaticResource SmallTextBoxBaseStyle}" />
+                    </Grid>
+                </Border>
+                <WrapPanel Grid.Row="2" Grid.ColumnSpan="2" HorizontalAlignment="Right" Margin="0,15,0,0">
+                    <Button Name="btnDialogCancel" Grid.Column="1" IsCancel="True" Cursor="Hand" Height="34" Style="{StaticResource RoundedCancel}">
+                        Hủy
+                    </Button>
+                    <Button Name="btnDialogOk" Click="btnDialogOk_Click" IsDefault="True" Grid.Column="1" Cursor="Hand" Height="34" Style="{StaticResource RoundedOk}">
+                    Ok</Button>
+                </WrapPanel>
+            </Grid>
+        </Grid>
+    </Border>
 </Window>

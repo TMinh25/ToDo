@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
-using System.Windows;
+using System.Runtime.ConstrainedExecution;
 using ToDoApp.Controls;
 using ToDoApp.Converters;
 using ToDoApp.Models;
@@ -13,6 +13,102 @@ namespace ToDoApp.Views
     class BUS
     {
         DAL dbProcess = new DAL();
+
+        public ObservableCollection<MenuModel> getCustomMenu()
+        {
+            var cmd = DAL.newSqlCommand("SELECT * FROM CustomMenu");
+            SqlDataReader dr = dbProcess.getDataQuery(cmd);
+            ObservableCollection<MenuModel> customMenuModels = new ObservableCollection<MenuModel>();
+            while (dr.Read())
+            {
+                int id = (int)dr.GetValue(dr.GetOrdinal("id_customMenu"));
+                string title = dr.GetString(dr.GetOrdinal("title"));
+                string iconFont = dr.GetString(dr.GetOrdinal("iconFont"));
+                string backColor = dr.GetString(dr.GetOrdinal("backColor"));
+                MenuModel menu = new MenuModel() { Title = title, IconFont = iconFont, BackColor = backColor, ID = id };
+                customMenuModels.Add(menu);
+            }
+            dbProcess.CloseConnector();
+            return customMenuModels;
+        }
+
+        public ObservableCollection<MenuModel> createCustomMenu(int userID, MenuModel menu, MainViewModel viewModel)
+        {
+            try
+            {
+                var cmd = DAL.newSqlCommand("INSERT INTO [dbo].[CustomMenu] ([id_user], [title], [iconFont], [backColor]) VALUES (@UserID, @Title, @IconFont, @BackColor) SELECT SCOPE_IDENTITY();");
+                cmd.Parameters.AddWithValue("@UserID", userID);
+                cmd.Parameters.AddWithValue("@Title", menu.Title);
+                cmd.Parameters.AddWithValue("@IconFont", menu.IconFont);
+                cmd.Parameters.AddWithValue("@BackColor", menu.BackColor);
+                DataTable table = dbProcess.getDataTableQuery(cmd);
+                if (table.Rows.Count == 1)
+                {
+                    Console.WriteLine("Thêm Menu Thành Công");
+                }
+                else if (table.Rows.Count < 1)
+                {
+                    Console.WriteLine("THẤT BẠI: Thêm Menu");
+                }
+            }
+            catch (ArgumentNullException ex)
+            {
+                Console.WriteLine(ex);
+            }
+            return getCustomMenu();
+        }
+
+        public ObservableCollection<MenuModel> updateCustomMenu(int menuID, string title)
+        {
+            try
+            {
+                var cmd = DAL.newSqlCommand("UPDATE [dbo].[CustomMenu] SET [title] = @Title WHERE id_customMenu = @MenuID SELECT SCOPE_IDENTITY();");
+                cmd.Parameters.AddWithValue("@Title", title);
+                cmd.Parameters.AddWithValue("@MenuID", menuID);
+                DataTable table = dbProcess.getDataTableQuery(cmd);
+                if (table.Rows.Count == 1)
+                {
+                    Console.WriteLine("Sửa Task Thành Công");
+                }
+                else if (table.Rows.Count < 1)
+                {
+                    Console.WriteLine("THẤT BẠI: Sửa Task");
+                }
+            }
+            catch (ArgumentNullException ex)
+            {
+                Console.WriteLine(ex);
+            }
+            return getCustomMenu();
+        }
+
+        public ObservableCollection<MenuModel> deleteCustomMenu(int menuID)
+        {
+            PromptDialog promptDialog = new PromptDialog("Bạn có muốn xóa công việc này?", promptInput: false);
+            if (promptDialog.ShowDialog() == true)
+            {
+                try
+                {
+                    var cmd = DAL.newSqlCommand("DELETE FROM [dbo].[CustomMenu] WHERE id_customMenu = @MenuID; SELECT SCOPE_IDENTITY();");
+                    cmd.Parameters.AddWithValue("@MenuID", menuID);
+                    DataTable table = dbProcess.getDataTableQuery(cmd);
+                    if (table.Rows.Count == 1)
+                    {
+                        new PromptDialog("Xóa Thành Công!", promptInput: false, cancelButton: false).ShowDialog();
+                        Console.WriteLine("Xóa Menu Thành Công");
+                    }
+                    else if (table.Rows.Count < 1)
+                    {
+                        Console.WriteLine("THẤT BẠI: Xóa Menu");
+                    }
+                }
+                catch (ArgumentNullException ex)
+                {
+                    Console.WriteLine(ex);
+                }
+            }
+            return getCustomMenu();
+        }
 
         public ObservableCollection<TaskInfo> getTaskListOfUser(int userID, string category = "")
         {
@@ -56,6 +152,7 @@ namespace ToDoApp.Views
                     status: dr.GetBoolean(dr.GetOrdinal("status")),
                     isImportant: dr.GetBoolean(dr.GetOrdinal("isImportant")));
                 task.Id = dr.GetInt32(dr.GetOrdinal("id_task"));
+                task.Category = dr.IsDBNull(dr.GetOrdinal("category")) ? "" : dr.GetString(dr.GetOrdinal("category"));
                 taskList.Add(task);
                 //Console.WriteLine(task.Id + " " + task.Content + " " + task.TimeString);
             }
@@ -77,6 +174,29 @@ namespace ToDoApp.Views
                     status: dr.GetBoolean(dr.GetOrdinal("status")),
                     isImportant: dr.GetBoolean(dr.GetOrdinal("isImportant")));
                 task.Id = dr.GetInt32(dr.GetOrdinal("id_task"));
+                task.Category = dr.IsDBNull(dr.GetOrdinal("category")) ? "" : dr.GetString(dr.GetOrdinal("category"));
+                taskList.Add(task);
+                //Console.WriteLine(task.Id + " " + task.Content + " " + task.TimeString);
+            }
+            dbProcess.CloseConnector();
+            return taskList;
+        }
+
+        public ObservableCollection<TaskInfo> getDoneTaskList(int userID)
+        {
+            var cmd = DAL.newSqlCommand("SELECT * FROM [dbo].[Task] WHERE [Task].id_user = @UserID AND [Task].status = 1");
+            cmd.Parameters.AddWithValue("@UserID", userID);
+            SqlDataReader dr = dbProcess.getDataQuery(cmd);
+            ObservableCollection<TaskInfo> taskList = new ObservableCollection<TaskInfo>();
+            while (dr.Read())
+            {
+                TaskInfo task = new TaskInfo(
+                    content: dr.GetString(dr.GetOrdinal("taskContent")),
+                    timeCreated: dr.GetDateTime(dr.GetOrdinal("timeCreated")),
+                    status: dr.GetBoolean(dr.GetOrdinal("status")),
+                    isImportant: dr.GetBoolean(dr.GetOrdinal("isImportant")));
+                task.Id = dr.GetInt32(dr.GetOrdinal("id_task"));
+                task.Category = dr.IsDBNull(dr.GetOrdinal("category")) ? "" : dr.GetString(dr.GetOrdinal("category"));
                 taskList.Add(task);
                 //Console.WriteLine(task.Id + " " + task.Content + " " + task.TimeString);
             }
@@ -112,7 +232,7 @@ namespace ToDoApp.Views
             {
                 Console.WriteLine(ex);
             }
-            return viewModel.MenuModel.TaskInfos;
+            return viewModel.MenuModel?.TaskInfos;
         }
 
         public ObservableCollection<TaskInfo> updateTaskForUser(int taskID, MainViewModel viewModel, bool taskStatus, bool isImportant, string updateContent)
@@ -153,40 +273,109 @@ namespace ToDoApp.Views
 
         public ObservableCollection<TaskInfo> deleteTaskForUser(int taskID, MainViewModel viewModel)
         {
-            try
+            PromptDialog promptDialog = new PromptDialog("Bạn có muốn xóa công việc này?", promptInput: false);
+            if (promptDialog.ShowDialog() == true)
             {
-                var cmd = DAL.newSqlCommand("DELETE FROM [dbo].[Task] WHERE id_task = @IDTask; SELECT SCOPE_IDENTITY();");
-                cmd.Parameters.AddWithValue("@IDTask", taskID);
-                DataTable table = dbProcess.getDataTableQuery(cmd);
-                if (table.Rows.Count == 1)
+                if (promptDialog.DialogResult == true)
                 {
-                    MessageBox.Show("Xóa Thành Công!", "Thành Công");
-                    Console.WriteLine("Xóa Task Thành Công");
+                    try
+                    {
+                        var cmd = DAL.newSqlCommand("DELETE FROM [dbo].[Task] WHERE id_task = @IDTask; SELECT SCOPE_IDENTITY();");
+                        cmd.Parameters.AddWithValue("@IDTask", taskID);
+                        DataTable table = dbProcess.getDataTableQuery(cmd);
+                        if (table.Rows.Count == 1)
+                        {
+                            Console.WriteLine("Xóa Task Thành Công");
+                        }
+                        else if (table.Rows.Count < 1)
+                        {
+                            Console.WriteLine("THẤT BẠI: Xóa Task");
+                        }
+                    }
+                    catch (ArgumentNullException ex)
+                    {
+                        Console.WriteLine(ex);
+                    }
                 }
-                else if (table.Rows.Count < 1)
-                {
-                    Console.WriteLine("THẤT BẠI: Xóa Task");
-                }
-            }
-            catch (ArgumentNullException ex)
-            {
-                Console.WriteLine(ex);
             }
             return viewModel.MenuModel.TaskInfos;
         }
 
+        [ReliabilityContract(Consistency.WillNotCorruptState, Cer.MayFail)]
+        private unsafe bool UnSafeEquals(byte[] strA, byte[] strB)
+        {
+            int length = strA.Length;
+            if (length != strB.Length)
+            {
+                return false;
+            }
+            fixed (byte* str = strA)
+            {
+                byte* chPtr = str;
+                fixed (byte* str2 = strB)
+                {
+                    byte* chPtr2 = str2;
+                    byte* chPtr3 = chPtr;
+                    byte* chPtr4 = chPtr2;
+                    while (length >= 10)
+                    {
+                        if ((((*(((int*)chPtr3)) != *(((int*)chPtr4))) || (*(((int*)(chPtr3 + 2))) != *(((int*)(chPtr4 + 2))))) || ((*(((int*)(chPtr3 + 4))) != *(((int*)(chPtr4 + 4)))) || (*(((int*)(chPtr3 + 6))) != *(((int*)(chPtr4 + 6)))))) || (*(((int*)(chPtr3 + 8))) != *(((int*)(chPtr4 + 8)))))
+                        {
+                            break;
+                        }
+                        chPtr3 += 10;
+                        chPtr4 += 10;
+                        length -= 10;
+                    }
+                    while (length > 0)
+                    {
+                        if (*(((int*)chPtr3)) != *(((int*)chPtr4)))
+                        {
+                            break;
+                        }
+                        chPtr3 += 2;
+                        chPtr4 += 2;
+                        length -= 2;
+                    }
+                    return (length <= 0);
+                }
+            }
+        }
+
         public int insertImage(byte[] image, string fileName)
         {
-            var cmd = DAL.newSqlCommand("INSERT INTO [dbo].[Avatar]([data], [fileName]) VALUES (@Image, @Filename) SELECT SCOPE_IDENTITY();");
-            cmd.Parameters.AddWithValue("@Image", image);
-            cmd.Parameters.AddWithValue("@Filename", fileName);
+            var cmd = DAL.newSqlCommand("SELECT * FROM [dbo].[Avatar]");
             DataTable dt = dbProcess.getDataTableQuery(cmd);
-            if (dt.Rows.Count == 1)
+            foreach (DataRow row in dt.Rows)
             {
-                Console.WriteLine("Thêm Ảnh Thành Công!");
-                return int.Parse(dt.Rows[0][0].ToString());
+                byte[] imgData = (byte[])row["data"];
+                if (UnSafeEquals(image, imgData))
+                {
+                    Console.WriteLine("Ảnh Đã Tồn Tại!");
+                    return (int)row["id_avatar"];
+                }
+                else
+                {
+                    Console.WriteLine("Không Giống");
+                }
             }
-            Console.WriteLine("THẤT BẠI: Thêm Ảnh");
+            try
+            {
+                cmd = DAL.newSqlCommand("INSERT INTO [dbo].[Avatar]([data], [fileName]) VALUES (@Image, @Filename) SELECT SCOPE_IDENTITY();");
+                cmd.Parameters.AddWithValue("@Image", image);
+                cmd.Parameters.AddWithValue("@Filename", fileName);
+                dt = dbProcess.getDataTableQuery(cmd);
+                if (dt.Rows.Count == 1)
+                {
+                    Console.WriteLine("Thêm Ảnh Thành Công!");
+                    return int.Parse(dt.Rows[0][0].ToString());
+                }
+                Console.WriteLine("THẤT BẠI: Thêm Ảnh");
+            }
+            catch (Exception)
+            {
+                //throw;
+            }
             return 0;
         }
 
@@ -209,7 +398,6 @@ namespace ToDoApp.Views
                 cmd.Parameters.AddWithValue("@idAvatar", idAvatar);
                 cmd.Parameters.AddWithValue("@username", username);
                 cmd.Parameters.AddWithValue("@password", password);
-                Console.WriteLine("AAA " + cmd.CommandText.ToString());
                 int rowsAffected = cmd.ExecuteNonQuery();
                 if (rowsAffected > 0)
                 {

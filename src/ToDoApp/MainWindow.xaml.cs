@@ -128,10 +128,10 @@ namespace ToDoApp
             viewModel.UpdateTaskInfo(ID, status: isDone, isImportant: isImportant);
         }
 
-        private void MenuItemUpdate_Click(object sender, RoutedEventArgs e)
+        private void UpdateTask_Click(object sender, RoutedEventArgs e)
         {
             var taskBind = (object)((MenuItem)sender).Tag;
-            Console.WriteLine(taskBind.ToString());
+            // Console.WriteLine(taskBind.ToString());
             int ID = (int)taskBind.GetType().GetProperty("Id").GetValue(taskBind, null);
             string taskContent = (string)taskBind.GetType().GetProperty("Content").GetValue(taskBind, null);
             PromptDialog inputDialog = new PromptDialog("Chỉnh sửa Task:", taskContent);
@@ -139,9 +139,8 @@ namespace ToDoApp
             {
                 var res = inputDialog.Answer;
                 if (res == "")
-                {
-                    MessageBox.Show("Hãy nhập thông tin nào", "Trống");
-                }
+                    new PromptDialog("Hãy nhập thông tin nào", promptInput: false, cancelButton: false).ShowDialog();
+                else if (res == taskContent) { }
                 else
                 {
                     var viewModel = this.DataContext as MainViewModel;
@@ -150,12 +149,57 @@ namespace ToDoApp
             }
         }
 
-        private void MenuItemDelete_Click(object sender, RoutedEventArgs e)
+        private void DeleteTask_Click(object sender, RoutedEventArgs e)
         {
             int ID = (int)((MenuItem)sender).Tag;
             Console.WriteLine(ID.ToString());
             var viewModel = this.DataContext as MainViewModel;
             viewModel.DeleteTaskInfo(ID);
+        }
+
+        private void CreateNewCustomMenu_Click(object sender, RoutedEventArgs e)
+        {
+            PromptDialog inputDialog = new PromptDialog("Thêm Danh Sách Mới:");
+            if (inputDialog.ShowDialog() == true)
+            {
+                var res = inputDialog.Answer;
+                if (res == "")
+                    new PromptDialog("Hãy nhập thông tin nào", promptInput: false, cancelButton: false).ShowDialog();
+                else
+                {
+                    var viewModel = this.DataContext as MainViewModel;
+                    viewModel.AddCustomMenu(res, "🚀", "#FFBE1A");
+                }
+            }
+
+        }
+
+        private void UpdateCustomMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            var updateTag = (object)((MenuItem)sender).Tag;
+            int ID = (int)updateTag.GetType().GetProperty("ID").GetValue(updateTag, null);
+            string title = (string)updateTag.GetType().GetProperty("Title").GetValue(updateTag, null);
+            PromptDialog inputDialog = new PromptDialog("Chỉnh sửa Danh Sách:", title);
+            if (inputDialog.ShowDialog() == true)
+            {
+                var res = inputDialog.Answer;
+                if (res == "")
+                    new PromptDialog("Hãy nhập thông tin nào", promptInput: false, cancelButton: false).ShowDialog();
+                else if (res == title) { }
+                else
+                {
+                    var viewModel = this.DataContext as MainViewModel;
+                    viewModel.UpdateCustomMenu(ID, res);
+                }
+            }
+        }
+
+        private void DeleteCustomMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            int ID = (int)((MenuItem)sender).Tag;
+            //   Console.WriteLine(ID.ToString());
+            var viewModel = this.DataContext as MainViewModel;
+            viewModel.DeleteCustomMenu(ID);
         }
     }
 }

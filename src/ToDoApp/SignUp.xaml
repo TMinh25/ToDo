@@ -3,7 +3,7 @@
         <ResourceDictionary Source="style.xaml"/>
     </Window.Resources>
 
-    <Border Padding="24" CornerRadius="10" Background="#EBEAF5">
+    <Border Padding="24" CornerRadius="10" Background="#F5F5F6">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
@@ -30,25 +30,25 @@
 
                 <Border Grid.Row="1" Background="White" Style="{StaticResource EntryFieldStyle}">
                     <Grid>
-                        <TextBlock FontSize="14" Text="Tài Khoản" Padding="8 10" Foreground="#7F7494" Visibility="{Binding ElementName=txtUserAccount, Path=Text.IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                        <TextBlock FontSize="14" Text="Tài Khoản" Padding="8 10" Foreground="#3A362A" Visibility="{Binding ElementName=txtUserAccount, Path=Text.IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}" />
                         <TextBox Margin="2" TabIndex="1" FontSize="14" Name="txtUserAccount" KeyDown="SignUp_KeyDown" Style="{StaticResource SmallTextBoxBaseStyle}" />
                     </Grid>
                 </Border>
                 <Border Grid.Row="1" Background="White" Style="{StaticResource EntryFieldStyle}">
                     <Grid>
-                        <TextBlock FontSize="14" Text="Mật Khẩu" Padding="8 10" Foreground="#7F7494" Visibility="{Binding ElementName=txtPassword, Path=Text.IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                        <TextBlock FontSize="14" Text="Mật Khẩu" Padding="8 10" Foreground="#3A362A" Visibility="{Binding ElementName=txtPassword, Path=Text.IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}" />
                         <TextBox Margin="2" TabIndex="2" FontSize="14" Name="txtPassword" KeyDown="SignUp_KeyDown" Style="{StaticResource SmallTextBoxBaseStyle}" />
                     </Grid>
                 </Border>
                 <Border Grid.Row="1" Background="White" Style="{StaticResource EntryFieldStyle}">
                     <Grid>
-                        <TextBlock FontSize="14" Text="Nhập Lại Mật Khẩu" Padding="8 10" Foreground="#7F7494" Visibility="{Binding ElementName=txtRePassword, Path=Text.IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                        <TextBlock FontSize="14" Text="Nhập Lại Mật Khẩu" Padding="8 10" Foreground="#3A362A" Visibility="{Binding ElementName=txtRePassword, Path=Text.IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}" />
                         <TextBox Margin="2" TabIndex="3" FontSize="14" Name="txtRePassword" KeyDown="SignUp_KeyDown" Style="{StaticResource SmallTextBoxBaseStyle}" />
                     </Grid>
                 </Border>
                 <Border Grid.Row="1" Background="White" Style="{StaticResource EntryFieldStyle}">
                     <Grid>
-                        <TextBlock FontSize="14" Text="Họ Tên" Padding="8 10" Foreground="#7F7494" Visibility="{Binding ElementName=txtDisplayName, Path=Text.IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                        <TextBlock FontSize="14" Text="Họ Tên" Padding="8 10" Foreground="#3A362A" Visibility="{Binding ElementName=txtDisplayName, Path=Text.IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}" />
                         <TextBox Margin="2" TabIndex="4" FontSize="14" Name="txtDisplayName" KeyDown="SignUp_KeyDown" Style="{StaticResource SmallTextBoxBaseStyle}" />
                     </Grid>
                 </Border>

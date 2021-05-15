@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows;
+using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -75,7 +76,7 @@ namespace ToDoApp
             return 1;
         }
 
-        private void SignUpButton_Click(object sender, RoutedEventArgs e)
+        private void signUp()
         {
             string userName = txtUserAccount.Text, password = txtPassword.Text, rePassword = txtRePassword.Text, displayName = txtDisplayName.Text;
             if (userName == string.Empty || password == string.Empty || rePassword == string.Empty || displayName == string.Empty)
@@ -108,12 +109,12 @@ namespace ToDoApp
                         {
                             if (bus.createAccount(userName, password, displayName, avatarImage, fileName))
                             {
-                                MessageBox.Show("Đăng kí thành công!");
+                                new PromptDialog("Đăng Kí Thành Công!", promptInput: false, cancelButton: false).ShowDialog();
                                 this.Close();
                             }
                             else
-                            {
-                                MessageBox.Show("Thất bại!");
+                            {                                new PromptDialog("Thất Bại!", promptInput: false, cancelButton: false).ShowDialog();
+
                             }
                         }
 
@@ -124,6 +125,11 @@ namespace ToDoApp
             }
         }
 
+        private void SignUpButton_Click(object sender, RoutedEventArgs e)
+        {
+            signUp();
+        }
+
         private void btnClose_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
@@ -132,6 +138,10 @@ namespace ToDoApp
         private void SignUp_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
 
+            if (e.Key == Key.Enter)
+            {
+                signUp();
+            }
         }
     }
 }
