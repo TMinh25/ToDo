@@ -22,10 +22,16 @@ namespace ToDoApp.DTO
         {
             get
             {
-                var outPutDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase);
-                var unknownUserPath = Path.Combine(outPutDirectory, "Assets\\Images\\unknownUser.jpg");
-                BitmapSource unknownUserSource = new BitmapImage(new Uri(new Uri(unknownUserPath).LocalPath));
-                return this.avatar == null ? unknownUserSource : ImgConverter.GetAvatarBitSource(avatar);
+                if (this.avatar == null)
+                {
+                    var outPutDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase);
+                    var unknownUserPath = Path.Combine(outPutDirectory, "Assets\\Images\\unknownUser.jpg");
+                    BitmapSource unknownUserSource = new BitmapImage(new Uri(new Uri(unknownUserPath).LocalPath));
+                    return unknownUserSource;
+                } else
+                {
+                    return ImgConverter.GetAvatarBitSource(avatar);
+                }
             }
         }
 

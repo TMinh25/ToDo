@@ -26,8 +26,8 @@
         </Style>
         <Style TargetType="{x:Type CheckBox}" x:Key="CheckboxStyle">
             <Setter Property="Cursor" Value="Hand" />
-            <Setter Property="HorizontalAlignment" Value="Center"/>
-            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="VerticalAlignment" Value="Center" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type CheckBox}">
@@ -53,8 +53,8 @@
         </Style>
         <Style TargetType="{x:Type CheckBox}" x:Key="StarCheckboxStyle">
             <Setter Property="Cursor" Value="Hand" />
-            <Setter Property="HorizontalAlignment" Value="Center"/>
-            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="VerticalAlignment" Value="Center" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type CheckBox}">
@@ -152,7 +152,7 @@
                 <ScrollContentPresenter x:Name="PART_ScrollContentPresenter" CanContentScroll="True" CanHorizontallyScroll="False" CanVerticallyScroll="False" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" Grid.Column="0" Margin="{TemplateBinding Padding}" Grid.Row="0" />
             </Grid>
         </ControlTemplate>
-        <Style TargetType="{x:Type Button}" x:Key="ImageButtonStyle">
+        <Style TargetType="{x:Type Button}" x:Key="ButtonHid">
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
@@ -170,10 +170,10 @@
         </Grid.ColumnDefinitions>
 
         <Grid>
-            <StackPanel>
-                <TextBlock Text="ToDo" Foreground="#8F8F8F" FontSize="13" Margin="15 15 0 20" />
+            <DockPanel>
+                <TextBlock DockPanel.Dock="Top" Text="ToDo" Foreground="#8F8F8F" FontSize="13" Margin="15 15 0 20" />
                 <!--avatar and user name-->
-                <Button Margin="10 0 10 10" Style="{StaticResource ImageButtonStyle}">
+                <Button DockPanel.Dock="Top" Margin="10 0 10 10" Style="{StaticResource ButtonHid}">
                     <Button.Content>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
                             <Ellipse Margin="0,0,8,0" Height="35" Width="35" HorizontalAlignment="Center">
@@ -192,13 +192,12 @@
                         </ContextMenu>
                     </Button.ContextMenu>
                 </Button>
-
-
-                <ListBox ItemsSource="{Binding MenuModels}" SelectedItem="{Binding MenuModel}" BorderThickness="0">
+                <ListBox DockPanel.Dock="Top" ItemsSource="{Binding MenuModels}" SelectedItem="{Binding MenuModel}" BorderThickness="0">
                     <ListBox.ItemContainerStyle>
                         <Style TargetType="ListBoxItem">
                             <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                            <Setter Property="BorderThickness" Value="0" />
+                            <Setter Property="BorderThickness" Value="0 0 0 1" />
+                            <Setter Property="BorderBrush" Value="black" />
                             <Setter Property="Background" Value="Transparent" />
                             <Setter Property="Template">
                                 <Setter.Value>
@@ -217,10 +216,9 @@
                             </Setter>
                         </Style>
                     </ListBox.ItemContainerStyle>
-
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <RadioButton HorizontalAlignment="Stretch" Command="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type local:MainWindow}},
+                            <RadioButton GroupName="TaskMenu" HorizontalAlignment="Stretch" Command="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type local:MainWindow}},
                                 Path=DataContext.SelectedCommand,Mode=TwoWay}" Style="{DynamicResource RadioButtonStyle}" CommandParameter="{Binding}">
                                 <RadioButton.IsChecked>
                                     <Binding Path="IsSelected" RelativeSource="{RelativeSource AncestorType=ListBoxItem}" Mode="TwoWay" />
@@ -243,7 +241,86 @@
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
-            </StackPanel>
+                <Button Click="CreateNewCustomMenu_Click" DockPanel.Dock="Top" Style="{StaticResource ButtonHid}">
+                    <Grid HorizontalAlignment="Stretch">
+                        <Grid.Style>
+                            <Style TargetType="{x:Type Grid}">
+                                <Setter Property="HorizontalAlignment" Value="Stretch" />
+                                <Setter Property="Background" Value="#F7F7F7" />
+                                <Setter Property="MinHeight" Value="44" />
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#F0F0F0"></Setter>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Grid.Style>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="50" />
+                            <ColumnDefinition Width="160" />
+                            <ColumnDefinition Width="50" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="➕" FontFamily="./Assets/Fonts/#iconfont" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        <TextBlock x:Name="btnText" Grid.Column="1" Text="Thêm Danh Sách Mới" VerticalAlignment="Center" FontSize="14" Foreground="Black" />
+                    </Grid>
+                </Button>
+                <ListBox DockPanel.Dock="Top" ItemsSource="{Binding CustomMenuModels}" SelectedItem="{Binding MenuModel}" BorderThickness="0" ScrollViewer.VerticalScrollBarVisibility="Hidden">
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="ListBoxItem">
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                            <Setter Property="Background" Value="Transparent" />
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                        <Grid>
+                                            <Border Name="border" />
+                                            <ContentPresenter />
+                                        </Grid>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsSelected" Value="True">
+                                                <Setter Property="Background" TargetName="border" Value="Transparent" />
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Button Style="{StaticResource ButtonHid}">
+                                <Button.Content>
+                                    <RadioButton GroupName="TaskMenu" HorizontalAlignment="Stretch" Command="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type local:MainWindow}},
+                                Path=DataContext.SelectedCommand,Mode=TwoWay}" Style="{DynamicResource RadioButtonStyle}" CommandParameter="{Binding}">
+                                        <RadioButton.IsChecked>
+                                            <Binding Path="IsSelected" RelativeSource="{RelativeSource AncestorType=ListBoxItem}" Mode="TwoWay" />
+                                        </RadioButton.IsChecked>
+                                        <Grid HorizontalAlignment="Stretch">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="50" />
+                                                <ColumnDefinition Width="160" />
+                                                <ColumnDefinition Width="50" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Grid.Column="0" Text="{Binding IconFont}" FontFamily="./Assets/Fonts/#iconfont" FontSize="22" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                            <TextBlock Grid.Column="1" Text="{Binding Title}" VerticalAlignment="Center" FontSize="14" Foreground="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, 
+                                        AncestorType={x:Type RadioButton}}}" />
+                                            <!-- TaskInfos.Count -->
+                                            <!--đếm số lượng task của từng tab-->
+                                            <TextBlock Grid.Column="2" Foreground="Black" Text="{Binding TaskInfos.Count}" FontSize="15" Margin="0,0,10,0" HorizontalAlignment="Right" VerticalAlignment="Center" />
+                                        </Grid>
+                                    </RadioButton>
+                                </Button.Content>
+                                <Button.ContextMenu>
+                                    <ContextMenu>
+                                        <MenuItem Tag="{Binding ModifyTag}" Click="UpdateCustomMenuItem_Click" Header="Chỉnh Sửa" />
+                                        <MenuItem Tag="{Binding ID}" Click="DeleteCustomMenuItem_Click" Header="Xóa" />
+                                    </ContextMenu>
+                                </Button.ContextMenu>
+                            </Button>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </DockPanel>
         </Grid>
 
         <Grid Name="grc" Grid.Column="1" Background="{Binding MenuModel.BackColor}">
@@ -293,7 +370,7 @@
 
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <Button Style="{StaticResource ImageButtonStyle}">
+                                <Button Style="{StaticResource ButtonHid}">
                                     <Border Tag="{Binding IsStatusDone}" Name="border" CornerRadius="3" Margin="40 2 40 0" VerticalAlignment="Center" Height="50">
                                         <Grid>
                                             <Grid.ColumnDefinitions>
@@ -302,10 +379,19 @@
                                                 <ColumnDefinition Width="50" />
                                             </Grid.ColumnDefinitions>
                                             <CheckBox Grid.Column="0" Tag="{Binding BooleanField}" IsChecked="{Binding IsStatusDone}" Checked="CheckBox_CheckedChanged" Unchecked="CheckBox_CheckedChanged" Style="{StaticResource CheckboxStyle}"></CheckBox>
-                                            <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                                                <TextBlock Text="{Binding Content}" Foreground="Black"/>
-                                                <TextBlock Text="{Binding TimeString}" Foreground="#666" />
-                                            </StackPanel>
+                                            <Grid Grid.Column="1" VerticalAlignment="Center">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition/>
+                                                    <RowDefinition/>
+                                                </Grid.RowDefinitions>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="2*"/>
+                                                    <ColumnDefinition />
+                                                </Grid.ColumnDefinitions>
+                                                <TextBlock Grid.Row="0" Text="{Binding Content}" Foreground="Black" />
+                                                <TextBlock Grid.Row="1" Text="{Binding TimeString}" Foreground="#666" />
+                                                <TextBlock Grid.Row="0" Grid.Column="1" Grid.RowSpan="2" Text="{Binding Category}" VerticalAlignment="Center" HorizontalAlignment="Right" Foreground="#666" />
+                                            </Grid>
                                             <CheckBox Grid.Column="2" Tag="{Binding BooleanField}" IsChecked="{Binding IsImportant}" Checked="CheckBoxImportant_CheckedChanged" Unchecked="CheckBoxImportant_CheckedChanged" Style="{StaticResource StarCheckboxStyle}"></CheckBox>
                                         </Grid>
 
@@ -327,9 +413,9 @@
                                     </Border>
                                     <Button.ContextMenu>
                                         <ContextMenu>
-                                            <MenuItem Tag="{Binding BindingCommand}" Click="MenuItemUpdate_Click" Header="Sửa" />
+                                            <MenuItem Tag="{Binding BindingCommand}" Click="UpdateTask_Click" Header="Sửa" />
                                             <Separator />
-                                            <MenuItem Tag="{Binding Id}" Click="MenuItemDelete_Click" Header="Xóa" />
+                                            <MenuItem Tag="{Binding Id}" Click="DeleteTask_Click" Header="Xóa" />
                                         </ContextMenu>
                                     </Button.ContextMenu>
                                 </Button>

@@ -193,7 +193,7 @@
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
         <Setter Property="Cursor" Value="Hand"/>
-        <Setter Property="Foreground" Value="#DDDDDD"/>
+        <Setter Property="Foreground" Value="#FF976700"/>
         <Setter Property="FontSize" Value="16"/>
         <Setter Property="Template">
             <Setter.Value>
@@ -209,8 +209,8 @@
                                             <TranslateTransform X="0.02" Y="0.3"/>
                                         </TransformGroup>
                                     </RadialGradientBrush.RelativeTransform>
-                                    <GradientStop Offset="1" Color="#9863f1"/>
-                                    <GradientStop Offset="0.3" Color="#623abf"/>
+                                    <GradientStop Offset="1" Color="#ffecb3"/>
+                                    <GradientStop Offset="0.3" Color="#ffffe5"/>
                                 </RadialGradientBrush>
                             </Border.Background>
                             <ContentPresenter HorizontalAlignment="Center"
@@ -221,7 +221,7 @@
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" Value="#7E43E2"/>
+                            <Setter Property="Background" Value="#ffffe5"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -235,5 +235,37 @@
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="FontSize" Value="12"/>
         <Setter Property="Foreground" Value="Red"/>
+    </Style>
+
+
+    <Style TargetType="Button" x:Key="RoundedCancel">
+        <Setter Property="Background" Value="White" />
+        <Setter Property="TextBlock.TextAlignment" Value="Center" />
+        <Setter Property="TextBlock.FontSize" Value="16" />
+        <Setter Property="TextBlock.FontWeight" Value="Medium" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border CornerRadius="16" Background="White" BorderBrush="#333" BorderThickness="2" Width="72" Margin="0 0 10 0" >
+                        <ContentPresenter x:Name="contentPresenter" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style TargetType="Button" x:Key="RoundedOk">
+        <Setter Property="TextBlock.TextAlignment" Value="Center" />
+        <Setter Property="TextBlock.FontSize" Value="16" />
+        <Setter Property="TextBlock.FontWeight" Value="Medium" />
+        <Setter Property="TextBlock.Foreground" Value="White" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border CornerRadius="16" Background="#333" Width="56">
+                        <ContentPresenter x:Name="contentPresenter" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
 </ResourceDictionary>

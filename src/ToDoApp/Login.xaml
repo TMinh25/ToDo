@@ -2,7 +2,7 @@
     <Window.Resources>
         <ResourceDictionary Source="style.xaml"/>
     </Window.Resources>
-    <Border Padding="24" CornerRadius="10" Background="#EBEAF5">
+    <Border Padding="24" CornerRadius="10" Background="#F5F5F6">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="1*" />
@@ -29,13 +29,13 @@
 
                 <Border Grid.Row="0" Background="White" Style="{StaticResource EntryFieldStyle}">
                     <Grid>
-                        <TextBlock FontSize="16" Text="Tài Khoản" Padding="8 12" Foreground="#7F7494" Visibility="{Binding ElementName=txtUserAccount, Path=Text.IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                        <TextBlock FontSize="16" Text="Tài Khoản" Padding="8 11" Foreground="#7F7494" Visibility="{Binding ElementName=txtUserAccount, Path=Text.IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}" />
                         <TextBox Margin="2" TabIndex="0" FontSize="16" Name="txtUserAccount" Style="{StaticResource TextBoxBaseStyle}" KeyDown="LogIn_TextBox_KeyDown" />
                     </Grid>
                 </Border>
                 <Border Grid.Row="1" Background="White" Style="{StaticResource EntryFieldStyle}">
                     <Grid>
-                        <TextBlock FontSize="16" Text="Mật Khẩu" Padding="8 12" Foreground="#7F7494" Visibility="{Binding ElementName=txtPassword, Path=Text.IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                        <TextBlock FontSize="16" Text="Mật Khẩu" Padding="8 11" Foreground="#7F7494" Visibility="{Binding ElementName=txtPassword, Path=Text.IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}" />
                         <TextBox Margin="2" TabIndex="1" FontSize="16" Name="txtPassword" Style="{StaticResource TextBoxBaseStyle}" KeyDown="LogIn_TextBox_KeyDown" />
                     </Grid>
                 </Border>
@@ -57,7 +57,7 @@
                         </Setter>
                     </Style>
                 </Button.Style>
-                <TextBlock Foreground="#7E43E2" TextDecorations="Underline" FontSize="14">Đăng Kí?</TextBlock>
+                <TextBlock Foreground="#3A362A" TextDecorations="Underline" FontSize="14">Đăng Kí?</TextBlock>
             </Button>
         </Grid>
     </Border>
