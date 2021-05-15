@@ -341,23 +341,63 @@
                 <Button Name="btnClose" Click="btnCloseClick" Width="45" Height="30" Content="✕" Foreground="White" BorderThickness="0" Background="Transparent" />
             </StackPanel>
 
-            <StackPanel Grid.Row="1" Grid.ColumnSpan="2">
-                <StackPanel HorizontalAlignment="Left" Margin="30 0 0 0">
+            <Grid Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" Margin="30 0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width=".4*"/>
+                </Grid.ColumnDefinitions>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Name="ico" Text="{Binding MenuModel.IconFont}" Visibility="{Binding MenuModel.Display,Converter={StaticResource discv}}" FontFamily="./Assets/Fonts/#iconfont" VerticalAlignment="Center" Foreground="White" FontSize="40" />
                         <TextBlock Name="tit" Text="{Binding MenuModel.Title}" Margin="5 0 0 0" VerticalAlignment="Center" Foreground="White" FontWeight="Bold" FontSize="30" />
                     </StackPanel>
+                <TextBlock FontSize="15" Foreground="White" Margin="5 0 0 0" VerticalAlignment="Center">
+                    <TextBlock.Text>
+                        <MultiBinding Converter="{StaticResource dismulti}">
+                            <Binding Path="Visibility" ElementName="ico" />
+                            <Binding Path="Text" ElementName="tit" />
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
+                <Border Grid.Column="1">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="50" />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
 
-                    <TextBlock FontSize="15" Foreground="White" Margin="5 0 0 0" VerticalAlignment="Center">
-                        <TextBlock.Text>
-                            <MultiBinding Converter="{StaticResource dismulti}">
-                                <Binding Path="Visibility" ElementName="ico" />
-                                <Binding Path="Text" ElementName="tit" />
-                            </MultiBinding>
-                        </TextBlock.Text>
-                    </TextBlock>
-                </StackPanel>
-            </StackPanel>
+                        <TextBlock x:Name="btnSearch" MouseDown="btnAddTask_MouseDown" Cursor="Hand" FontFamily="./Assets/Fonts/#iconfont" Text="&#xe64b;" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" Foreground="White" />
+
+                        <TextBox Name="txtSearch" Grid.Column="1" TextChanged="SearchText_TextChanged">
+                            <TextBox.Resources>
+                                <VisualBrush x:Key="hinttext" TileMode="None" AlignmentX="Left" Stretch="None">
+                                    <VisualBrush.Visual>
+                                        <TextBlock FontStyle="Normal" Text="Tìm Kiếm" />
+                                    </VisualBrush.Visual>
+                                </VisualBrush>
+                            </TextBox.Resources>
+
+                            <TextBox.Style>
+                                <Style TargetType="TextBox">
+                                    <Setter Property="VerticalAlignment" Value="Center" />
+                                    <Setter Property="Foreground" Value="White" />
+                                    <Setter Property="FontSize" Value="14" />
+                                    <Setter Property="BorderThickness" Value="0" />
+                                    <Setter Property="Background" Value="Transparent" />
+                                    <Style.Triggers>
+                                        <Trigger Property="Text" Value="">
+                                            <Setter Property="Background" Value="{StaticResource hinttext}" />
+                                        </Trigger>
+
+                                        <Trigger Property="Text" Value="{x:Null}">
+                                            <Setter Property="Background" Value="{StaticResource hinttext}" />
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBox.Style>
+                        </TextBox>
+                    </Grid>
+                </Border>
+            </Grid>
 
             <Grid Grid.Row="2">
                 <ScrollViewer Template="{StaticResource ViewerScrollBar}">

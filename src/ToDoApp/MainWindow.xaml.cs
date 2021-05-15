@@ -1,6 +1,7 @@
 ﻿using GalaSoft.MvvmLight.Messaging;
 using System;
 using System.IO;
+using System.Linq;
 using System.Media;
 using System.Reflection;
 using System.Windows;
@@ -8,6 +9,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using ToDoApp.Models;
+using System.Collections.ObjectModel;
 using ToDoApp.Views;
 
 namespace ToDoApp
@@ -200,6 +202,38 @@ namespace ToDoApp
             //   Console.WriteLine(ID.ToString());
             var viewModel = this.DataContext as MainViewModel;
             viewModel.DeleteCustomMenu(ID);
+        }
+
+        private void SearchText_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            string searchText = txtSearch.Text;
+            var viewModel = this.DataContext as MainViewModel;
+            viewModel.SearchTaskInfos(searchText);
+            //    var viewModel = this.DataContext as MainViewModel;
+            //    Console.WriteLine(searchText);
+
+            //    if (searchText == "") {
+            //        viewModel.Refresh();
+            //        Console.WriteLine(viewModel.MenuModel.TaskInfos.Count);
+            //    } 
+            //    else
+            //    {
+            //        string upper = searchText.ToUpper();
+            //        string lower = searchText.ToLower();
+
+            //        var taskFiltered = from task in viewModel.MenuModel.TaskInfos
+            //                           let content = task.Content
+            //                           where
+            //                            content.StartsWith(lower)
+            //                            || content.StartsWith(upper)
+            //                            || content.Contains(searchText)
+            //                           select task;
+            //        viewModel.Refresh();
+            //        viewModel.MenuModel.TaskInfos.Clear();
+            //        var res = new ObservableCollection<TaskInfo>(taskFiltered.Cast<TaskInfo>());
+            //        viewModel.MenuModel.TaskInfos = res;
+            //        Console.WriteLine(new ObservableCollection<TaskInfo>(taskFiltered.Cast<TaskInfo>())[0]);
+            //    }
         }
     }
 }

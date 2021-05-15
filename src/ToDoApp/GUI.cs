@@ -78,6 +78,8 @@ namespace ToDoApp.Models
         private void Select(MenuModel model)
         {
             MenuModel = model;
+            SearchTaskInfos("");
+            Refresh();
         }
 
 
@@ -103,7 +105,7 @@ namespace ToDoApp.Models
             Select(MenuModels[0]);
         }
 
-        private void Refresh(int id = 0)
+        public void Refresh(int id = 0)
         {
             if (this.MenuModel != null)
             {
@@ -119,12 +121,20 @@ namespace ToDoApp.Models
                 foreach (MenuModel mainItem in this.MenuModels)
                 {
                     mainItem.CurrentUserID = id;
+                    mainItem.SearchString = "";
                 }
                 foreach (MenuModel customItem in this.CustomMenuModels)
                 {
                     customItem.CurrentUserID = id;
+                    customItem.SearchString = "";
                 }
             }
+        }
+
+        public void SearchTaskInfos(string searchText)
+        {
+            this.MenuModel.SearchString = searchText;
+            Refresh();
         }
 
         public void AddTaskInfo(string content, bool isImportant = false, string category = "")
