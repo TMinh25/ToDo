@@ -11,7 +11,7 @@ using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using ToDoApp.Converters;
-using ToDoApp.Views;
+using ToDoApp.Control;
 
 namespace ToDoApp
 {
@@ -20,7 +20,7 @@ namespace ToDoApp
     /// </summary>
     public partial class SignUp : Window
     {
-        BUS bus = new BUS();
+        BLL bus = new BLL();
         private Image avatarImage = null;
         private string fileName = null;
         public BitmapSource AvatarImageSource

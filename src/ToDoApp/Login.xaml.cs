@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Input;
-using ToDoApp.Views;
+using ToDoApp.Control;
 
 namespace ToDoApp
 {
@@ -9,10 +9,16 @@ namespace ToDoApp
     /// </summary>
     public partial class Login : Window
     {
-        BUS bus = new BUS();
+        BLL bus = new BLL();
         public Login()
         {
             InitializeComponent();
+        }
+
+        public Login(Window window)
+        {
+            InitializeComponent();
+            window.Close();
         }
 
         private void logIn()

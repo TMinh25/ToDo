@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using ToDoApp.DTO;
 
 namespace ToDoApp.Converters
 {
@@ -23,6 +22,20 @@ namespace ToDoApp.Converters
             sb = sb.Replace('Đ', 'D');
             sb = sb.Replace('đ', 'd');
             return (sb.ToString().Normalize(NormalizationForm.FormD));
+        }
+
+        public static ObservableCollection<Task> filterSearch(ObservableCollection<Task> taskInfos, string searchString)
+        {
+            string lower = searchString.ToLower();
+            string unSign = LanguageConverter.convertToUnSign(searchString).ToLower();
+
+            var taskFiltered = from task in taskInfos
+                               let content = task.Content.ToLower()
+                               let contentUnsign = LanguageConverter.convertToUnSign(task.Content.ToLower())
+                               where content.Contains(lower)
+                                     || contentUnsign.Contains(unSign)
+                               select task;
+            return new ObservableCollection<Task>(taskFiltered.Cast<Task>());
         }
     }
 }

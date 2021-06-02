@@ -3,24 +3,27 @@ using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
 using System;
 using System.Collections.ObjectModel;
-using ToDoApp.Views;
+using ToDoApp.DTO;
+using ToDoApp.Control;
 
-namespace ToDoApp.Models
+namespace ToDoApp.View
 {
     public class MainViewModel : ViewModelBase
     {
-        private BUS bus = new BUS();
+        private BLL bus = new BLL();
 
         public MainViewModel(User _currentUser)
         {
-            MenuModels = new ObservableCollection<MenuModel>();
-            menuModels.Add(new MenuModel() { IconFont = "\xe755", Title = "Hôm Nay", BackColor = "#E4572E", });
-            menuModels.Add(new MenuModel() { IconFont = "\xe6b6", Title = "Quan Trọng", BackColor = "#48ACF0", });
-            menuModels.Add(new MenuModel() { IconFont = "\xe6e1", Title = "Hoàn Thành", BackColor = "#2E933C", });
-            menuModels.Add(new MenuModel() { IconFont = "\xe614", Title = "Tất Cả", BackColor = "#1E212B", });
+            MenuModels = new ObservableCollection<MenuModel>()
+            {
+                new MenuModel() { IconFont = "\xe755", Title = "Hôm Nay", BackColor = "#E4572E", },
+                new MenuModel() { IconFont = "\xe6b6", Title = "Quan Trọng", BackColor = "#48ACF0", },
+                new MenuModel() { IconFont = "\xe6e1", Title = "Hoàn Thành", BackColor = "#2E933C", },
+                new MenuModel() { IconFont = "\xe614", Title = "Tất Cả", BackColor = "#1E212B", }
+            };
 
             CustomMenuModels = new ObservableCollection<MenuModel>();
-            customMenuModels = bus.getCustomMenu();
+            customMenuModels = bus.getCustomMenu(_currentUser.ID);
 
             this.CurrentUser = _currentUser;
             this.MenuModel = MenuModels[0];
@@ -28,7 +31,7 @@ namespace ToDoApp.Models
             //Console.WriteLine(this.CurrentUser.ID);
 
             SelectedCommand = new RelayCommand<MenuModel>(t => Select(t));
-            SelectedTaskCommand = new RelayCommand<TaskInfo>(t => SelectedTask(t));
+            SelectedTaskCommand = new RelayCommand<Task>(t => SelectedTask(t));
         }
 
         private ObservableCollection<MenuModel> menuModels;
@@ -49,7 +52,7 @@ namespace ToDoApp.Models
 
         public RelayCommand<MenuModel> SelectedCommand { get; set; }
 
-        public RelayCommand<TaskInfo> SelectedTaskCommand { get; set; }
+        public RelayCommand<Task> SelectedTaskCommand { get; set; }
 
         private MenuModel menuModel;
 
@@ -67,9 +70,9 @@ namespace ToDoApp.Models
             set { currentUser = value; RaisePropertyChanged(); }
         }
 
-        private TaskInfo info;
+        private Task info;
 
-        public TaskInfo Info
+        public Task Info
         {
             get { return info; }
             set { info = value; RaisePropertyChanged(); }
@@ -93,14 +96,14 @@ namespace ToDoApp.Models
 
         public void UpdateCustomMenu(int menuID, string title)
         {
-            this.CustomMenuModels = bus.updateCustomMenu(menuID, title);
+            this.CustomMenuModels = bus.updateCustomMenu(currentUser.ID, menuID, title);
             Refresh();
             Select(MenuModels[0]);
         }
 
         public void DeleteCustomMenu(int menuID)
         {
-            this.CustomMenuModels = bus.deleteCustomMenu(menuID);
+            this.CustomMenuModels = bus.deleteCustomMenu(currentUser.ID, menuID);
             Refresh();
             Select(MenuModels[0]);
         }
@@ -161,7 +164,7 @@ namespace ToDoApp.Models
                     default:
                         break;
                 }
-                var task = new TaskInfo(
+                var task = new Task(
                     content: content.Trim(),
                     timeCreated: DateTime.Now,
                     status: false,
@@ -172,9 +175,7 @@ namespace ToDoApp.Models
                 this.MenuModel.TaskInfos = bus.addTaskForUser(CurrentUser.ID, task, viewModel: this);
             }
             else
-            {
                 new PromptDialog("Hãy nhập thông tin vào nhé", promptInput: false, cancelButton: false).ShowDialog();
-            }
             Refresh();
         }
 
@@ -190,7 +191,7 @@ namespace ToDoApp.Models
             Refresh();
         }
 
-        public void SelectedTask(TaskInfo task)
+        public void SelectedTask(Task task)
         {
             Info = task;
             Messenger.Default.Send(task, "Expand");

@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-C:\Users\Admin\Desktop\ToDo\src\ToDoApp\obj\Debug\
+D:\ToDo\src\ToDoApp\obj\Debug\
 ToDoApp
 none
 false
 TRACE;DEBUG
-C:\Users\Admin\Desktop\ToDo\src\ToDoApp\App.xaml
-52124623933
+D:\ToDo\src\ToDoApp\App.xaml
+6-802123488
 3-1286666079
-19-425292815
-71-788803989
-Login.xaml;MainWindow.xaml;PromptDialog.xaml;SignUp.xaml;style.xaml;
+20-125138698
+71-1938833566
+Login.xaml;MainWindow.xaml;PromptDialog.xaml;Profile.xaml;SignUp.xaml;style.xaml;
 
-False
+True
 

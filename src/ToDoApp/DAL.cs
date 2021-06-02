@@ -8,11 +8,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ToDoApp.Converters;
-using ToDoApp.Models;
+using ToDoApp.DTO;
 
-namespace ToDoApp.Controls
-{
-    class DAL // Data Access Layer
+namespace ToDoApp.Model
+{ 
+    // Data Access Layer
+    class DAL
     {
         static private SqlConnection conn = null;
         private SqlCommand cmd = null;
@@ -55,24 +56,9 @@ namespace ToDoApp.Controls
             SqlDataReader dr = cmd.ExecuteReader();
             return dr;
         }
-        public DataTable getDataTable(string tablename)
-        {
-            SqlDataReader dr = getDataReader(tablename);
-            DataTable dt = new DataTable();
-            dt.Load(dr);
-            return dt;
-        }
-        
         public DataTable getDataTableQuery(SqlCommand command)
         {
             SqlDataReader dr = getDataQuery(command);
-            DataTable dt = new DataTable();
-            dt.Load(dr);
-            return dt;
-        }
-        public DataTable getDataTableQuery(string strSql)
-        {
-            SqlDataReader dr = getDataQuery(strSql);
             DataTable dt = new DataTable();
             dt.Load(dr);
             return dt;

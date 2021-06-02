@@ -7,40 +7,40 @@ using ToDoApp.Converters;
 
 namespace ToDoApp.DTO
 {
-    public class User
+  public class User
+  {
+    public User() { }
+
+    public User(string displayName, Image avatar)
     {
-        public User(string displayName, Image avatar, string fileName)
-        {
-            this.displayName = displayName;
-            this.avatar = avatar;
-            this.fileName = fileName;
-        }
-
-        public User() { }
-
-        public BitmapSource DisplayImage
-        {
-            get
-            {
-                if (this.avatar == null)
-                {
-                    var outPutDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase);
-                    var unknownUserPath = Path.Combine(outPutDirectory, "Assets\\Images\\unknownUser.jpg");
-                    BitmapSource unknownUserSource = new BitmapImage(new Uri(new Uri(unknownUserPath).LocalPath));
-                    return unknownUserSource;
-                } else
-                {
-                    return ImgConverter.GetAvatarBitSource(avatar);
-                }
-            }
-        }
-
-        public int ID { get; set; }
-
-        public string displayName { get; set; }
-
-        public Image avatar { get; }
-
-        public string fileName { get; set; }
+      this.DisplayName = displayName;
+      this.Avatar = avatar;
     }
+
+    public int ID { get; set; }
+
+    public string DisplayName { get; set; }
+
+    internal Image Avatar { get; set; }
+
+    internal string UserName { get; set; }
+
+    internal string PassWord { get; set; }
+
+    public BitmapSource DisplayImage
+    {
+      get
+      {
+        if (this.Avatar == null)
+        {
+          var outPutDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase);
+          var unknownUserPath = Path.Combine(outPutDirectory, "Assets\\Images\\unknownUser.jpg");
+          BitmapSource unknownUserSource = new BitmapImage(new Uri(new Uri(unknownUserPath).LocalPath));
+          return unknownUserSource;
+        }
+        else
+          return ImgConverter.GetAvatarBitSource(Avatar);
+      }
+    }
+  }
 }

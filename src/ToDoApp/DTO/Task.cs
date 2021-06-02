@@ -1,39 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ToDoApp.DTO
 {
-    public class TaskInfo
+    public class Task
     {
-        public TaskInfo(string content, DateTime timeCreated, bool status, bool isImportant)
+        public Task(string content, DateTime timeCreated, bool status, bool isImportant)
         {
             Content = content;
             TimeCreated = timeCreated;
             IsStatusDone = status;
             IsImportant = isImportant;
-        }
-
-        public string getTimeString(DateTime time)
-        {
-            DateTime resDate;
-            if (!DateTime.TryParseExact(time.ToString("MM/dd/yyyy"), "MM/dd/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out resDate))
-            {
-                //Invalid date
-                //log , show error
-                return "";
-            }
-            if (DateTime.Today == resDate)
-            {
-                return "Hôm nay, " + time.ToString("hh:mm tt");
-            }
-            else
-            {
-                return time.ToString();
-            }
         }
 
         public int Id { get; set; }
@@ -48,9 +25,22 @@ namespace ToDoApp.DTO
 
         public bool IsImportant { get; set; }
 
-        public string TimeString { get => getTimeString(TimeCreated); }
+        public string TimeString
+        {
+            get
+            {
+                DateTime resDate;
+                if (!DateTime.TryParseExact(TimeCreated.ToString("MM/dd/yyyy"), "MM/dd/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out resDate))
+                    // lỗi tryParseExact thì sẽ trả về ""
+                    return "";
+                if (DateTime.Today == resDate)
+                    return "Hôm nay, " + TimeCreated.ToString("hh:mm tt");
+                else
+                    return TimeCreated.ToString();
+            }
+        }
 
-        public object BindingCommand
+        public object UpdateField
         {
             get
             {

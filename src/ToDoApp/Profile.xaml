@@ -1,4 +1,4 @@
-﻿<Window x:Class="ToDoApp.SignUp" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:local="clr-namespace:ToDoApp" mc:Ignorable="d" Title="Đăng Kí" Height="592.5" Width="500" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="None" AllowsTransparency="True" Background="Transparent" Icon="Assets/Images/logo.ico">
+﻿<Window x:Class="ToDoApp.Profile" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:local="clr-namespace:ToDoApp" mc:Ignorable="d" Title="Đăng Kí" Height="592.5" Width="500" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="None" AllowsTransparency="True" Background="Transparent" Icon="Assets/Images/logo.ico">
     <Window.Resources>
         <ResourceDictionary Source="style.xaml" />
     </Window.Resources>
@@ -21,7 +21,7 @@
                 <Button Style="{StaticResource ImageButtonStyle}" TabIndex="0" Click="ImageButton_Click">
                     <Ellipse Width="250" Height="250" HorizontalAlignment="Center">
                         <Ellipse.Fill>
-                            <ImageBrush Stretch="UniformToFill" x:Name="imgAvatarSelection" ImageSource="{Binding AvatarImageSource}" />
+                            <ImageBrush Stretch="UniformToFill" x:Name="imgAvatarSelection" ImageSource="{Binding DisplayImage}" />
                         </Ellipse.Fill>
                     </Ellipse>
                 </Button>
@@ -31,29 +31,37 @@
                 <Border Grid.Row="1" Background="White" Style="{StaticResource EntryFieldStyle}">
                     <Grid>
                         <TextBlock FontSize="14" Text="Tài Khoản" Padding="8 10" Foreground="#3A362A" Visibility="{Binding ElementName=txtUserAccount, Path=Text.IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}" />
-                        <TextBox Margin="2" TabIndex="1" FontSize="14" Name="txtUserAccount" KeyDown="SignUp_KeyDown" Style="{StaticResource SmallTextBoxBaseStyle}" />
+                        <TextBox Margin="2" TabIndex="1" FontSize="14" Name="txtUserAccount" KeyDown="Update_KeyDown" Style="{StaticResource SmallTextBoxBaseStyle}" Text="{Binding username}"/>
                     </Grid>
                 </Border>
                 <Border Grid.Row="1" Background="White" Style="{StaticResource EntryFieldStyle}">
                     <Grid>
                         <TextBlock FontSize="14" Text="Mật Khẩu" Padding="8 10" Foreground="#3A362A" Visibility="{Binding ElementName=txtPassword, Path=Text.IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}" />
-                        <TextBox Margin="2" TabIndex="2" FontSize="14" Name="txtPassword" KeyDown="SignUp_KeyDown" Style="{StaticResource SmallTextBoxBaseStyle}" />
+                        <TextBox Margin="2" TabIndex="2" FontSize="14" Name="txtPassword" KeyDown="Update_KeyDown" Style="{StaticResource SmallTextBoxBaseStyle}" Text="{Binding password, Mode=TwoWay}"/>
                     </Grid>
                 </Border>
                 <Border Grid.Row="1" Background="White" Style="{StaticResource EntryFieldStyle}">
                     <Grid>
                         <TextBlock FontSize="14" Text="Nhập Lại Mật Khẩu" Padding="8 10" Foreground="#3A362A" Visibility="{Binding ElementName=txtRePassword, Path=Text.IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}" />
-                        <TextBox Margin="2" TabIndex="3" FontSize="14" Name="txtRePassword" KeyDown="SignUp_KeyDown" Style="{StaticResource SmallTextBoxBaseStyle}" />
+                        <TextBox Margin="2" TabIndex="3" FontSize="14" Name="txtRePassword" KeyDown="Update_KeyDown" Style="{StaticResource SmallTextBoxBaseStyle}" Text="{Binding rePassword, Mode=TwoWay}" />
                     </Grid>
                 </Border>
                 <Border Grid.Row="1" Background="White" Style="{StaticResource EntryFieldStyle}">
                     <Grid>
                         <TextBlock FontSize="14" Text="Họ Tên" Padding="8 10" Foreground="#3A362A" Visibility="{Binding ElementName=txtDisplayName, Path=Text.IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}" />
-                        <TextBox Margin="2" TabIndex="4" FontSize="14" Name="txtDisplayName" KeyDown="SignUp_KeyDown" Style="{StaticResource SmallTextBoxBaseStyle}" />
+                        <TextBox Margin="2" TabIndex="4" FontSize="14" Name="txtDisplayName" KeyDown="Update_KeyDown" Style="{StaticResource SmallTextBoxBaseStyle}" Text="{Binding DisplayName, Mode=TwoWay}" />
                     </Grid>
                 </Border>
                 <TextBlock x:Name="txtErrorMessage" Style="{StaticResource txtError}" Margin="0 10 0 8" />
-                <Button Grid.Column="0" FontSize="14" TabIndex="5" Style="{StaticResource yellowButton}" Height="40" Click="SignUpButton_Click">Đăng Kí</Button>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <Button Grid.Column="0" FontSize="14" TabIndex="5" Style="{StaticResource redButton}" Height="40" Click="DeleteAccount_Click">Xóa Tài Khoản</Button>
+                    <Button Grid.Column="1" FontSize="14" TabIndex="5" Style="{StaticResource yellowButton}" Height="40" Click="UpdateButton_Click">Chỉnh Sửa</Button>
+                </Grid>
             </StackPanel>
         </Grid>
     </Border>

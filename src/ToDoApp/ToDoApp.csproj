@@ -82,7 +82,7 @@
     <Compile Include="Converters\ImgConverter.cs" />
     <Compile Include="Converters\DisplayConverters.cs" />
     <Compile Include="Converters\DisplayMultiConverters.cs" />
-    <Compile Include="DTO\TaskInfo.cs" />
+    <Compile Include="DTO\Task.cs" />
     <Compile Include="DTO\User.cs" />
     <Compile Include="Login.xaml.cs">
       <DependentUpon>Login.xaml</DependentUpon>
@@ -92,10 +92,13 @@
     <Compile Include="PromptDialog.xaml.cs">
       <DependentUpon>PromptDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Profile.xaml.cs">
+      <DependentUpon>Profile.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SignUp.xaml.cs">
       <DependentUpon>SignUp.xaml</DependentUpon>
     </Compile>
-    <Compile Include="BUS.cs" />
+    <Compile Include="BLL.cs" />
     <Page Include="Login.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -115,6 +118,10 @@
     <Page Include="PromptDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Profile.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="SignUp.xaml">
       <SubType>Designer</SubType>
