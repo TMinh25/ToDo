@@ -25,8 +25,8 @@ namespace ToDoApp.View
             CustomMenuModels = new ObservableCollection<MenuModel>();
             customMenuModels = bus.getCustomMenu(_currentUser.ID);
 
-            this.CurrentUser = _currentUser;
-            this.MenuModel = MenuModels[0];
+            CurrentUser = _currentUser;
+            MenuModel = MenuModels[0];
             Refresh(_currentUser.ID);
             //Console.WriteLine(this.CurrentUser.ID);
 
@@ -84,7 +84,6 @@ namespace ToDoApp.View
             SearchTaskInfos("");
             Refresh();
         }
-
 
         public void AddCustomMenu(string title, string icon, string backColor)
         {

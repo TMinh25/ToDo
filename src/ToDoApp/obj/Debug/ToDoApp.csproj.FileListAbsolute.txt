@@ -56,7 +56,6 @@ D:\ToDo\src\ToDoApp\bin\Debug\GalaSoft.MvvmLight.Extras.pdb
 D:\ToDo\src\ToDoApp\bin\Debug\GalaSoft.MvvmLight.Extras.xml
 D:\ToDo\src\ToDoApp\bin\Debug\GalaSoft.MvvmLight.Platform.pdb
 D:\ToDo\src\ToDoApp\bin\Debug\GalaSoft.MvvmLight.Platform.xml
-D:\ToDo\src\ToDoApp\obj\Debug\ToDoApp.csprojAssemblyReference.cache
 D:\ToDo\src\ToDoApp\obj\Debug\Login.baml
 D:\ToDo\src\ToDoApp\obj\Debug\style.baml
 D:\ToDo\src\ToDoApp\obj\Debug\Login.g.cs
@@ -80,3 +79,4 @@ D:\ToDo\src\ToDoApp\obj\Debug\ToDoApp.exe
 D:\ToDo\src\ToDoApp\obj\Debug\ToDoApp.pdb
 D:\ToDo\src\ToDoApp\obj\Debug\Profile.g.cs
 D:\ToDo\src\ToDoApp\obj\Debug\Profile.baml
+D:\ToDo\src\ToDoApp\obj\Debug\ToDoApp.csproj.AssemblyReference.cache

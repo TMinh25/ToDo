@@ -35,8 +35,8 @@
                 </Border>
                 <Border Grid.Row="1" Background="White" Style="{StaticResource EntryFieldStyle}">
                     <Grid>
-                        <TextBlock FontSize="16" Text="Mật Khẩu" Padding="8 11" Foreground="#7F7494" Visibility="{Binding ElementName=txtPassword, Path=Text.IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}" />
-                        <TextBox Margin="2" TabIndex="1" FontSize="16" Name="txtPassword" Style="{StaticResource TextBoxBaseStyle}" KeyDown="LogIn_TextBox_KeyDown" />
+                        <TextBlock FontSize="16" Text="Mật Khẩu" Padding="8 11" Foreground="#7F7494" Visibility="{Binding ElementName=txtPassword, Path=Password.IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                        <PasswordBox  Margin="2" TabIndex="1" FontSize="16" Name="txtPassword" Style="{StaticResource PasswordBoxBaseStyle}" KeyDown="LogIn_TextBox_KeyDown" />
                     </Grid>
                 </Border>
                 <TextBlock Grid.Row="2" Name="txtErrorMessage" Style="{StaticResource txtError}" />

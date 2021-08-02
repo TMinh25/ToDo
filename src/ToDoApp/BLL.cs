@@ -17,6 +17,8 @@ namespace ToDoApp.Control
     {
         DAL dbProcess = new DAL();
 
+        #region CustomMenu
+
         public bool isCustomMenuValid(string customMenuTitle, int userID)
         {
             try
@@ -144,6 +146,10 @@ namespace ToDoApp.Control
             }
             return getCustomMenu(userID);
         }
+
+        #endregion
+
+        #region Tasks
 
         public ObservableCollection<Task> getTaskForMenuModel(string title, int CurrentUserID, string searchString)
         {
@@ -359,6 +365,10 @@ namespace ToDoApp.Control
             }
             return viewModel.MenuModel.TaskInfos;
         }
+
+        #endregion
+
+        #region Authentication
 
         [ReliabilityContract(Consistency.WillNotCorruptState, Cer.MayFail)]
         private unsafe bool UnSafeCompareByteArray(byte[] strA, byte[] strB)
@@ -645,5 +655,7 @@ namespace ToDoApp.Control
             Login login = new Login();
             login.Show();
         }
+        
+        #endregion
     }
 }

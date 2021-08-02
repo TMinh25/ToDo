@@ -16,7 +16,7 @@ namespace ToDoApp.Model
     class DAL
     {
         static private SqlConnection conn = null;
-        private SqlCommand cmd = null;
+        //private SqlCommand cmd = null;
 
         public DAL()
         {
@@ -48,27 +48,12 @@ namespace ToDoApp.Model
         {
             return new SqlCommand(strSql, conn);
         }
-        public SqlDataReader getDataReader(string tablename)
-        {
-            string strSQL = "SELECT * FROM [dbo].[" + tablename + "]";
-            cmd = new SqlCommand(strSQL, conn);
-            this.OpenConnector();
-            SqlDataReader dr = cmd.ExecuteReader();
-            return dr;
-        }
         public DataTable getDataTableQuery(SqlCommand command)
         {
             SqlDataReader dr = getDataQuery(command);
             DataTable dt = new DataTable();
             dt.Load(dr);
             return dt;
-        }
-        public SqlDataReader getDataQuery(string strSql)
-        {
-            cmd = new SqlCommand(strSql, conn);
-            this.OpenConnector();
-            SqlDataReader dr = cmd.ExecuteReader();
-            return dr;
         }
         public SqlDataReader getDataQuery(SqlCommand command)
         {

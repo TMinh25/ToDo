@@ -24,7 +24,7 @@ namespace ToDoApp
         private void logIn()
         {
             string userName = txtUserAccount.Text;
-            string passWord = txtPassword.Text;
+            string passWord = txtPassword.Password;
             if (userName == "" || passWord == "") return;
             var err = bus.signIn(userName, passWord);
             if (err == "")
@@ -35,7 +35,7 @@ namespace ToDoApp
                 txtUserAccount.Focus();
             }
             txtUserAccount.Text = string.Empty;
-            txtPassword.Text = string.Empty;
+            txtPassword.Password = string.Empty;
         }
 
         private void LogIn_TextBox_KeyDown(object sender, KeyEventArgs e)
